@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db:
+    platform: linux/amd64
+    build: ./db
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./db/databese:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: test
+      MYSQL_DATABASE: test
+      MYSQL_USER: test
+      MYSQL_PASSWORD: test
+  web:
+    build: ./web
+    ports:
+      - "8080:80"
+    volumes:
+      - ./html:/var/www/html
+    depends_on:
+      - db
+    environment:
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_USERNAME: test
+      DB_PASSWORD: test
